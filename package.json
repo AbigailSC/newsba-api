@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --extensions \".ts,.js\" --out-dir build --copy-files",
-    "start": "node build/index.js",
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules src/index.ts",
+    "start": "node build/app.js",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules src/app.ts",
     "format": "prettier --ignore-path .gitignore --write .",
     "lint": "eslint --ignore-path .gitignore . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
@@ -16,7 +16,6 @@
   "lint-staged": {
     "*.ts": [
       "npm run format",
-      "commitlint -e",
       "npm run lint:fix"
     ]
   },
@@ -52,9 +51,13 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "axios": "^0.27.2",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "express-validator": "^7.0.1",
+    "mongoose": "^7.5.3"
   }
 }
