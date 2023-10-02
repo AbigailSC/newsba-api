@@ -36,7 +36,7 @@
       "@utils": ["./src/utils"],
       "@models": ["./src/models"],
       "@services": ["./src/services"],
-      "@middleware": ["src/middleware"],
+      "@middlewares": ["src/middlewares"],
       "@config": ["./src/config"],
       "@interfaces": ["./src/interfaces"],
       "@docs": ["./src/docs"],

@@ -16,8 +16,7 @@ export const catchAsync: CatchAsyncMiddleware =
     try {
       await fn(req, res, next);
     } catch (error) {
-      console.log((error as Error).message);
-      return res.status(500).json({ message: (error as Error).message });
+      console.log(error);
     }
   };
 
