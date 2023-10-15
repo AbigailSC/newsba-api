@@ -1,5 +1,6 @@
 export interface UserType {
   email: string;
+  username: string;
   password: string;
   rol: string;
   verified: boolean;

@@ -11,6 +11,11 @@ const usersSchema = new Schema<UserType>(
       trim: true,
       lowercase: true
     },
+    username: {
+      type: String,
+      required: [true, 'Username is required'],
+      trim: true
+    },
     password: {
       type: String,
       required: [true, 'Password is required'],
