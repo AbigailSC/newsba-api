@@ -32,3 +32,25 @@ export const verifyEmail = [
     recolectErrors(req, res, next);
   }
 ];
+
+export const verifyArticle = [
+  check('title', 'Title is required').not().isEmpty(),
+  check('title', 'Title should have at least 10 chars').isLength({ min: 10 }),
+  check('image', 'Image is required').not().isEmpty(),
+  check('image', 'Image format invalid').isURL(),
+  check('average', 'Average is required').not().isEmpty(),
+  check('average', 'Average should be a number').isNumeric(),
+  check('average', 'Average should be between 0 and 5').isFloat({
+    min: 0,
+    max: 5
+  }),
+  check('pros', 'Pros is required').not().isEmpty(),
+  check('pros', 'Pros should be an array').isArray(),
+  check('pros', 'Pros should have at least 3 items').isLength({ min: 3 }),
+  check('resume', 'Resume is required').not().isEmpty(),
+  check('resume', 'Resume should have at least 20 chars').isLength({ min: 20 }),
+
+  (req: Request, res: Response, next: NextFunction) => {
+    recolectErrors(req, res, next);
+  }
+];

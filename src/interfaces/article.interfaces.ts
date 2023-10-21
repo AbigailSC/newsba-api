@@ -14,4 +14,5 @@ export interface ArticleType {
   tags: ObjectId[];
   category: string;
   analysis?: ObjectId;
+  author: ObjectId;
 }
