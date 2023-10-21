@@ -17,6 +17,10 @@ export const catchAsync: CatchAsyncMiddleware =
       await fn(req, res, next);
     } catch (error) {
       console.log(error);
+      res.status(500).json({
+        status: res.statusCode,
+        message: 'Internal server error'
+      });
     }
   };
 

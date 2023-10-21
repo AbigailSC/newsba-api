@@ -1,1 +1,5 @@
-export * from './user.interface';
+export * from './analysis.interfaces';
+export * from './article.interfaces';
+export * from './category.interfaces';
+export * from './tag.interfaces';
+export * from './user.interfaces';

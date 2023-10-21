@@ -15,3 +15,20 @@ export const verifyCreate = [
     recolectErrors(req, res, next);
   }
 ];
+
+export const verifyCode = [
+  check('code', 'Code is required').not().isEmpty(),
+  check('code', 'Code should have 5 chars').isLength({ min: 5, max: 5 }),
+  (req: Request, res: Response, next: NextFunction) => {
+    recolectErrors(req, res, next);
+  }
+];
+
+export const verifyEmail = [
+  check('email', 'Email is required').not().isEmpty(),
+  check('email', 'Email format invalid').isEmail(),
+  check('email').normalizeEmail().escape(),
+  (req: Request, res: Response, next: NextFunction) => {
+    recolectErrors(req, res, next);
+  }
+];

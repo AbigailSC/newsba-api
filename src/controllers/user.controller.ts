@@ -3,25 +3,6 @@ import { catchAsync } from '@middlewares';
 import { UserType } from '@interfaces';
 import { User } from '@models';
 
-export const createUser: RequestHandler = catchAsync(async (req, res) => {
-  const { email, password, username, role }: UserType = req.body;
-  const newUser = new User({
-    email,
-    username,
-    role,
-    emailVerifyTokenLink: req.cookies.refreshToken
-  });
-  const encryptedPassword = await newUser.encryptPassword(password);
-  newUser.password = encryptedPassword;
-  const savedUser = await newUser.save();
-
-  return res.status(201).json({
-    status: res.statusCode,
-    message: 'User created',
-    data: savedUser
-  });
-});
-
 export const updateUser: RequestHandler = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { password }: UserType = req.body;

@@ -1,8 +1,13 @@
 import { Router } from 'express';
-import { register, login } from '@controllers';
+import { register, login, verifyAccount } from '@controllers';
 import { check } from 'express-validator';
 import { recolectErrors } from '@middlewares';
-import { verifyCreate, emailExists } from '@validations';
+import {
+  verifyCreate,
+  emailExists,
+  verifyCode,
+  verifyEmail
+} from '@validations';
 
 const router: Router = Router();
 
@@ -19,5 +24,9 @@ router
   );
 
 router.route('/login').post([...verifyCreate, recolectErrors], login);
+
+router
+  .route('/verify')
+  .patch([...verifyCode, ...verifyEmail, recolectErrors], verifyAccount);
 
 export default router;

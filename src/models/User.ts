@@ -1,7 +1,7 @@
 import { Schema, model, Model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { UserType } from '@interfaces';
-import { ROLES } from '@constants';
+import { IMAGEPROFILEDEFAULT, ROLES } from '@constants';
 
 const usersSchema = new Schema<UserType>(
   {
@@ -15,6 +15,11 @@ const usersSchema = new Schema<UserType>(
       type: String,
       required: [true, 'Username is required'],
       trim: true
+    },
+    image: {
+      type: String,
+      required: false,
+      default: IMAGEPROFILEDEFAULT
     },
     password: {
       type: String,
