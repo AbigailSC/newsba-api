@@ -1,2 +1,2 @@
-export { default as indexRoutes } from './index.routes';
-export * from './user.routes';
+export { default as user } from './user.routes';
+export { default as auth } from './auth.routes';

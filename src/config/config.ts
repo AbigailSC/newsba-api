@@ -9,7 +9,9 @@ export const config = {
   },
   auth: {
     jwtSecret: process.env.JWT_SECRET ?? 'SECRET',
-    jwtRefresh: process.env.JWT_REFRESH ?? 'REFRESH'
+    jwtRefresh: process.env.JWT_REFRESH ?? 'REFRESH',
+    jwtExpires: process.env.JWT_EXPIRES ?? '1h',
+    adminKey: process.env.ADMIN_KEY ?? 'ADMIN_KEY'
   },
   email: {
     user: process.env.EMAIL_USER ?? 'EMAIL_USER',

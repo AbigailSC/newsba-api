@@ -4,11 +4,11 @@ import { UserType } from '@interfaces';
 import { User } from '@models';
 
 export const createUser: RequestHandler = catchAsync(async (req, res) => {
-  const { email, password, username, rol }: UserType = req.body;
+  const { email, password, username, role }: UserType = req.body;
   const newUser = new User({
     email,
     username,
-    rol,
+    role,
     emailVerifyTokenLink: req.cookies.refreshToken
   });
   const encryptedPassword = await newUser.encryptPassword(password);

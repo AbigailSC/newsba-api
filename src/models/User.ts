@@ -21,9 +21,14 @@ const usersSchema = new Schema<UserType>(
       required: [true, 'Password is required'],
       trim: true
     },
-    rol: {
+    role: {
       type: String,
-      default: ROLES.user
+      required: false,
+      default: ROLES.USER
+    },
+    code: {
+      type: String,
+      required: false
     },
     verified: {
       type: Boolean,
@@ -33,11 +38,6 @@ const usersSchema = new Schema<UserType>(
       type: Boolean,
       required: false,
       default: true
-    },
-    emailVerifyTokenLink: {
-      type: String,
-      default: '',
-      required: false
     }
   },
   {
@@ -60,7 +60,8 @@ usersSchema.methods.comparePassword = async function (
 };
 
 usersSchema.methods.toJSON = function () {
-  const { _v, password, _id, emailVerifyTokenLink, ...user } = this.toObject();
+  const { _v, password, _id, code, isActive, createdAt, updatedAt, ...user } =
+    this.toObject();
   return user;
 };
 

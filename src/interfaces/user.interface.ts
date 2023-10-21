@@ -2,10 +2,10 @@ export interface UserType {
   email: string;
   username: string;
   password: string;
-  rol: string;
+  role: string;
+  code: string;
   verified: boolean;
   isActive: boolean;
-  emailVerifyTokenLink: string;
   comparePassword: (candidatePassword: string) => Promise<boolean>;
   encryptPassword: (password: string) => Promise<string>;
 }

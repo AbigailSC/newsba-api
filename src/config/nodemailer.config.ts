@@ -8,24 +8,20 @@ dotenv.config();
 const transporter = createTransport({
   service: 'gmail',
   auth: {
-    user: config.email.user,
-    pass: config.email.pass
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
-export const sendEmail = async (
-  email: string,
-  subject: string,
-  html: string
-): Promise<void> => {
+export const sendEmail = async (email: string, html: string): Promise<void> => {
+  const mailOptions = {
+    from: `"NewsBA" <${config.email.user}>`,
+    to: email,
+    subject: 'Confirm your account in NewsBA',
+    html
+  };
   try {
-    await transporter.sendMail({
-      from: `E-commerce <${config.email.user}>`,
-      to: email,
-      subject,
-      html
-    });
-    console.log('Email sent');
+    await transporter.sendMail(mailOptions);
   } catch (error) {
     console.log(error);
   }
