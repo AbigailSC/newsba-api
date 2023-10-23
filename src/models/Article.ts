@@ -35,8 +35,8 @@ const ArticleSchema = new Schema<ArticleType>(
       required: [true, 'Date is required']
     },
     views: {
-      type: Number,
-      required: [true, 'Views is required']
+      type: Schema.Types.ObjectId,
+      ref: 'View'
     },
     images: [
       {

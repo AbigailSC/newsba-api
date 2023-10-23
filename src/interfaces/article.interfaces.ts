@@ -7,7 +7,7 @@ export interface ArticleType {
   article: string[];
   imageLanding: string;
   date: Date;
-  views: number;
+  views: ObjectId;
   images: string[] | [];
   externalData?: string;
   mainTag: ObjectId;
