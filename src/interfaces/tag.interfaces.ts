@@ -1,3 +1,3 @@
-export interface TagType {
-  name: string;
-}
+import { CategoryType } from './category.interfaces';
+
+export interface TagType extends CategoryType {}

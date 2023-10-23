@@ -3,7 +3,7 @@ import { ViewType } from '@interfaces';
 
 const ViewSchema = new Schema<ViewType>(
   {
-    article: {
+    articleId: {
       type: Schema.Types.ObjectId,
       ref: 'Article',
       required: true
