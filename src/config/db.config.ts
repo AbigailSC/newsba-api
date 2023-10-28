@@ -3,7 +3,8 @@ import { config } from './config';
 
 export const dbConnection = async (): Promise<void> => {
   try {
-    const dbURL = config.db.uri;
+    const dbURL =
+      config.app.env === 'development' ? config.db.devUri : config.db.uri;
     if (!dbURL) {
       throw new Error('MongoDB URL not defined');
     }

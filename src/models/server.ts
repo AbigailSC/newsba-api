@@ -2,25 +2,28 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';
-// import swaggerUi from 'swagger-ui-express';
-// import swaggerJsdoc from 'swagger-jsdoc';
 import cookieParser from 'cookie-parser';
 import limitter from 'express-rate-limit';
-import { config } from '@config';
-import { auth } from '@routes';
-import { dbConnection } from 'src/config/db.config';
-
+import { config, dbConnection } from '@config';
+import { auth, favorite, user } from '@routes';
+import { validateJWT, validateVerified } from '@middlewares';
 export class Server {
   app: Express;
   port: string | number;
   rootPath: string;
   authPath: string;
+  userPath: string;
+  favoritePath: string;
+  articlePath: string;
 
   constructor() {
     this.app = express();
     this.port = config.app.port;
     this.rootPath = '/api/v1/';
     this.authPath = 'auth';
+    this.userPath = 'users';
+    this.favoritePath = 'favorites';
+    this.articlePath = 'articles';
 
     this.connectDB();
     this.middlewares();
@@ -43,6 +46,18 @@ export class Server {
 
   routes(): void {
     this.app.use(`${this.rootPath}${this.authPath}`, auth);
+    this.app.use(`${this.rootPath}${this.userPath}`, validateJWT, user);
+    this.app.use(
+      `${this.rootPath}${this.favoritePath}`,
+      validateJWT,
+      validateVerified,
+      favorite
+    );
+    this.app.use(
+      `${this.rootPath}${this.articlePath}`,
+      validateJWT,
+      validateVerified
+    );
   }
 
   listen(): void {

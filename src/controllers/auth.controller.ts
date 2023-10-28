@@ -8,11 +8,10 @@ import { generate } from 'randomstring';
 import { verifyAccountTemplate, generateJWT } from '@utils';
 
 export const register: RequestHandler = catchAsync(async (req, res) => {
-  const { email, password, username, role }: UserType = req.body;
+  const { email, password, username }: UserType = req.body;
   const newUser = new User({
     email,
-    username,
-    role
+    username
   });
 
   const encryptedPassword = await newUser.encryptPassword(password);
@@ -21,6 +20,10 @@ export const register: RequestHandler = catchAsync(async (req, res) => {
   const adminKey = req.headers['admin-key'];
   if (adminKey === config.auth.adminKey) {
     newUser.role = ROLES.ADMIN;
+  }
+  const writterKey = req.headers['writter-key'];
+  if (writterKey === config.auth.writter) {
+    newUser.role = ROLES.WRITTER;
   }
 
   const newCode = generate(5);
@@ -78,17 +81,17 @@ export const verifyAccount: RequestHandler = catchAsync(async (req, res) => {
     });
   }
 
-  if (user.code !== code) {
-    return res.status(400).json({
-      status: res.statusCode,
-      message: 'Incorrect code'
-    });
-  }
-
   if (user.verified) {
     return res.status(400).json({
       status: res.statusCode,
       message: 'User already verified'
+    });
+  }
+
+  if (user.code !== code) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Incorrect code'
     });
   }
 
