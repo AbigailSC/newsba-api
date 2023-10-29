@@ -5,7 +5,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import limitter from 'express-rate-limit';
 import { config, dbConnection } from '@config';
-import { auth, favorite, user } from '@routes';
+import { auth, category, favorite, tag, user } from '@routes';
 import { validateJWT, validateVerified } from '@middlewares';
 export class Server {
   app: Express;
@@ -15,6 +15,8 @@ export class Server {
   userPath: string;
   favoritePath: string;
   articlePath: string;
+  tagPath: string;
+  categoriesPath: string;
 
   constructor() {
     this.app = express();
@@ -24,6 +26,8 @@ export class Server {
     this.userPath = 'users';
     this.favoritePath = 'favorites';
     this.articlePath = 'articles';
+    this.tagPath = 'tags';
+    this.categoriesPath = 'categories';
 
     this.connectDB();
     this.middlewares();
@@ -57,6 +61,12 @@ export class Server {
       `${this.rootPath}${this.articlePath}`,
       validateJWT,
       validateVerified
+    );
+    this.app.use(`${this.rootPath}${this.tagPath}`, validateJWT, tag);
+    this.app.use(
+      `${this.rootPath}${this.categoriesPath}`,
+      validateJWT,
+      category
     );
   }
 

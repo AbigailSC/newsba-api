@@ -1,7 +1,7 @@
 import { config } from '@config';
 import { UserType } from '@interfaces';
 import { User } from '@models';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { JwtPayload, verify } from 'jsonwebtoken';
 
 export const validateJWT = async (
@@ -57,3 +57,23 @@ export const validateVerified = async (
 
   next();
 };
+
+export const verifyRoles: (roles: string[]) => RequestHandler =
+  (roles) => async (req, res, next) => {
+    try {
+      const user: UserType = req.body.userConfirm;
+
+      if (!roles.includes(user.role))
+        return res.status(401).json({
+          status: res.statusCode,
+          message: 'Unauthorized'
+        });
+
+      next();
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(401)
+        .json({ status: res.statusCode, message: 'Access denied' });
+    }
+  };
