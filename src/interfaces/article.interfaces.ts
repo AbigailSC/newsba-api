@@ -12,7 +12,7 @@ export interface ArticleType {
   externalData?: string;
   mainTag: ObjectId;
   tags: ObjectId[];
-  category: string;
+  category: ObjectId;
   analysis?: ObjectId;
   author: ObjectId;
 }

@@ -2,6 +2,7 @@ import { ArticleType, QueryType } from '@interfaces';
 import { catchAsync } from '@middlewares';
 import { RequestHandler } from 'express';
 import { Article, View } from '@models';
+import { generateSlug } from '@utils';
 
 export const postArticle: RequestHandler = catchAsync(async (req, res) => {
   const {
@@ -18,7 +19,7 @@ export const postArticle: RequestHandler = catchAsync(async (req, res) => {
     author
   }: ArticleType = req.body;
 
-  const slug = title.replace(/\s+/g, '-').toLowerCase();
+  const slug: string = generateSlug(title);
 
   const newArticle = new Article({
     slug,
@@ -35,7 +36,7 @@ export const postArticle: RequestHandler = catchAsync(async (req, res) => {
     author
   });
 
-  const view = new View({ views: 0, article: newArticle._id });
+  const view = new View({ views: 0, articleId: newArticle._id });
   await view.save();
   newArticle.views = view.id;
 
@@ -50,8 +51,7 @@ export const postArticle: RequestHandler = catchAsync(async (req, res) => {
 
   res.status(201).json({
     status: res.statusCode,
-    message: 'Article created',
-    data: newArticle
+    message: 'Article created'
   });
 });
 

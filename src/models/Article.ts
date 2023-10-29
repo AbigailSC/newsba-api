@@ -61,12 +61,13 @@ const ArticleSchema = new Schema<ArticleType>(
       }
     ],
     category: {
-      type: String,
+      type: Schema.Types.ObjectId,
       required: [true, 'Category is required'],
-      trim: true
+      ref: 'Category'
     },
     analysis: {
       type: Schema.Types.ObjectId,
+      required: false,
       ref: 'Analysis'
     },
     author: {

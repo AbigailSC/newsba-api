@@ -5,7 +5,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import limitter from 'express-rate-limit';
 import { config, dbConnection } from '@config';
-import { auth, category, favorite, tag, user } from '@routes';
+import { article, auth, category, favorite, tag, user } from '@routes';
 import { validateJWT, validateVerified } from '@middlewares';
 export class Server {
   app: Express;
@@ -60,7 +60,8 @@ export class Server {
     this.app.use(
       `${this.rootPath}${this.articlePath}`,
       validateJWT,
-      validateVerified
+      validateVerified,
+      article
     );
     this.app.use(`${this.rootPath}${this.tagPath}`, validateJWT, tag);
     this.app.use(

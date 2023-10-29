@@ -34,8 +34,6 @@ export const verifyEmail = [
 ];
 
 export const verifyArticle = [
-  check('slug', 'Slug is required').not().isEmpty(),
-  check('slug', 'Slug should have at least 10 chars').isLength({ min: 10 }),
   check('title', 'Title is required').not().isEmpty(),
   check('title', 'Title should have at least 10 chars').isLength({ min: 10 }),
   check('subTitle', 'SubTitle is required').not().isEmpty(),
@@ -47,7 +45,6 @@ export const verifyArticle = [
   check('imageLanding', 'Image Landing is required').not().isEmpty(),
   check('imageLanding', 'Image Landing format invalid').isURL(),
   check('date', 'Date is required').not().isEmpty(),
-  check('date', 'Date format invalid').isDate(),
 
   (req: Request, res: Response, next: NextFunction) => {
     recolectErrors(req, res, next);

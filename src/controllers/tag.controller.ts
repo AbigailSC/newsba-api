@@ -14,6 +14,13 @@ export const postTag: RequestHandler = catchAsync(async (req, res) => {
       message: 'Error creating tag'
     });
   }
+  const tagExists = await Tag.findOne({ name });
+  if (tagExists) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Tag already exists'
+    });
+  }
   await newTag.save();
   res.status(201).json({
     status: res.statusCode,
