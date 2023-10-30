@@ -15,8 +15,7 @@ export const postArticle: RequestHandler = catchAsync(async (req, res) => {
     externalData,
     mainTag,
     tags,
-    category,
-    author
+    category
   }: ArticleType = req.body;
 
   const slug: string = generateSlug(title);
@@ -33,7 +32,7 @@ export const postArticle: RequestHandler = catchAsync(async (req, res) => {
     mainTag,
     tags,
     category,
-    author
+    author: req.body.userConfirm._id
   });
 
   const view = new View({ views: 0, articleId: newArticle._id });
@@ -155,6 +154,102 @@ export const getArticles: RequestHandler = catchAsync(async (req, res) => {
   res.status(200).json({
     status: res.statusCode,
     message: 'Articles obtained',
+    data: articlesResponse
+  });
+});
+
+export const getArticlesByLatest = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { page = 1, limit = 10 } = req.query as QueryType;
+
+  const articlesByCategory = await Article.find({ category: id })
+    .sort({ date: -1 })
+    .populate('views mainTag tags analysis author')
+    .limit(limit)
+    .skip((page - 1) * limit);
+  if (articlesByCategory === null) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Error getting articles'
+    });
+  }
+  const productsLength = articlesByCategory.length;
+
+  const articlesResponse = {
+    totalPages: Math.ceil(productsLength / limit),
+    currentPage: page,
+    hasNextPage: page < Math.ceil(productsLength / limit),
+    hasPreviousPage: page > 1,
+    articlesByCategory
+  };
+
+  res.status(200).json({
+    status: res.statusCode,
+    message: 'Articles obtained',
+    data: articlesResponse
+  });
+});
+
+export const getArticlesByMostViewed = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { page = 1, limit = 10 } = req.query as QueryType;
+
+  const articlesByCategory = await Article.find({ category: id })
+    .sort({ views: -1 })
+    .populate('views mainTag tags analysis author')
+    .limit(limit)
+    .skip((page - 1) * limit);
+  if (articlesByCategory === null) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Error getting articles'
+    });
+  }
+
+  const productsLength = articlesByCategory.length;
+
+  const articlesResponse = {
+    totalPages: Math.ceil(productsLength / limit),
+    currentPage: page,
+    hasNextPage: page < Math.ceil(productsLength / limit),
+    hasPreviousPage: page > 1,
+    articlesByCategory
+  };
+
+  res.status(200).json({
+    status: res.statusCode,
+    message: 'Articles obtained',
+    data: articlesResponse
+  });
+});
+
+export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { page = 1, limit = 10 } = req.query as QueryType;
+  const productsLength = await Article.countDocuments();
+
+  const articles: ArticleType | null = await Article.findById({ tags: id })
+    .populate('views mainTag tags analysis category author')
+    .limit(limit)
+    .skip((page - 1) * limit);
+  if (!articles) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Tag not found'
+    });
+  }
+
+  const articlesResponse = {
+    totalPages: Math.ceil(productsLength / limit),
+    currentPage: page,
+    hasNextPage: page < Math.ceil(productsLength / limit),
+    hasPreviousPage: page > 1,
+    articles
+  };
+
+  res.status(200).json({
+    status: res.statusCode,
+    message: 'Articles found',
     data: articlesResponse
   });
 });

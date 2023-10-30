@@ -4,7 +4,10 @@ import {
   updateArticle,
   deleteArticle,
   getArticle,
-  getArticles
+  getArticles,
+  getArticlesByLatest,
+  getArticlesByMostViewed,
+  getArticlesByTag
 } from '@controllers';
 
 import { recolectErrors, verifyRoles } from '@middlewares';
@@ -40,5 +43,11 @@ router
     [verifyRoles([ROLES.ADMIN, ROLES.WRITTER]), recolectErrors],
     deleteArticle
   );
+
+router.get('/latest', getArticlesByLatest);
+
+router.get('/most-viewed', getArticlesByMostViewed);
+
+router.get('/tag/:tag', getArticlesByTag);
 
 export default router;
