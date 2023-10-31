@@ -95,26 +95,3 @@ export const deleteTagById: RequestHandler = catchAsync(async (req, res) => {
     data: tag
   });
 });
-
-export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
-  const { tag } = req.params;
-
-  const articles = await Article.find({
-    tags: { $in: [tag] }
-  })
-    .populate('views mainTag tags category analysis author')
-    .sort({ createdAt: -1 });
-
-  if (!articles) {
-    return res.status(400).json({
-      status: res.statusCode,
-      message: 'Error getting articles'
-    });
-  }
-
-  res.status(200).json({
-    status: res.statusCode,
-    message: 'Articles found',
-    data: articles
-  });
-});

@@ -226,7 +226,9 @@ export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
   const { page = 1, limit = 10 } = req.query as QueryType;
   const productsLength = await Article.countDocuments();
 
-  const articles: ArticleType | null = await Article.findById({ tags: tag })
+  const articles: ArticleType | null = await Article.findById({
+    tags: { $in: [tag] }
+  })
     .populate('views mainTag tags analysis category author')
     .limit(limit)
     .skip((page - 1) * limit);
