@@ -55,8 +55,8 @@ export const verifyAnalysis = [
   check('average', 'Average is required').not().isEmpty(),
   check('average', 'Average should be a number').isNumeric(),
   check('average', 'Average should be between 0 and 5').isFloat({
-    min: 0,
-    max: 5
+    min: 1,
+    max: 10
   }),
   check('pros', 'Pros is required').not().isEmpty(),
   check('pros', 'Pros should be an array').isArray(),

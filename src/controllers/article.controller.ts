@@ -148,7 +148,7 @@ export const getArticles: RequestHandler = catchAsync(async (req, res) => {
     currentPage: page,
     hasNextPage: page < Math.ceil(productsLength / limit),
     hasPreviousPage: page > 1,
-    articles
+    data: articles
   };
 
   res.status(200).json({
@@ -180,7 +180,7 @@ export const getArticlesByLatest = catchAsync(async (req, res) => {
     currentPage: page,
     hasNextPage: page < Math.ceil(productsLength / limit),
     hasPreviousPage: page > 1,
-    articlesByCategory
+    data: articlesByCategory
   };
 
   res.status(200).json({
@@ -213,7 +213,7 @@ export const getArticlesByMostViewed = catchAsync(async (req, res) => {
     currentPage: page,
     hasNextPage: page < Math.ceil(productsLength / limit),
     hasPreviousPage: page > 1,
-    articlesByCategory
+    data: articlesByCategory
   };
 
   res.status(200).json({
@@ -244,7 +244,7 @@ export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
     currentPage: page,
     hasNextPage: page < Math.ceil(productsLength / limit),
     hasPreviousPage: page > 1,
-    articles
+    data: articles
   };
 
   res.status(200).json({

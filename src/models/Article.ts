@@ -68,6 +68,7 @@ const ArticleSchema = new Schema<ArticleType>(
     analysis: {
       type: Schema.Types.ObjectId,
       required: false,
+      default: null,
       ref: 'Analysis'
     },
     author: {

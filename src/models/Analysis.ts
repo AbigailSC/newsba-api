@@ -13,8 +13,8 @@ const AnalysisSchema = new Schema<AnalysisType>(
     },
     average: {
       type: Number,
-      min: 0,
-      max: 5,
+      min: 1,
+      max: 10,
       required: true
     },
     pros: [
@@ -25,6 +25,16 @@ const AnalysisSchema = new Schema<AnalysisType>(
     ],
     resume: {
       type: String,
+      required: true
+    },
+    articleId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Article',
+      required: true
+    },
+    authorId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true
     }
   },
