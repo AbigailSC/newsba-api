@@ -1,6 +1,6 @@
 import { catchAsync } from '@middlewares';
 import { RequestHandler } from 'express';
-import { Tag } from '@models';
+import { Article, Tag } from '@models';
 import { TagType } from '@interfaces';
 
 export const postTag: RequestHandler = catchAsync(async (req, res) => {
@@ -93,5 +93,28 @@ export const deleteTagById: RequestHandler = catchAsync(async (req, res) => {
     status: res.statusCode,
     message: 'Tag deleted',
     data: tag
+  });
+});
+
+export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
+  const { tag } = req.params;
+
+  const articles = await Article.find({
+    tags: { $in: [tag] }
+  })
+    .populate('views mainTag tags category analysis author')
+    .sort({ createdAt: -1 });
+
+  if (!articles) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Error getting articles'
+    });
+  }
+
+  res.status(200).json({
+    status: res.statusCode,
+    message: 'Articles found',
+    data: articles
   });
 });

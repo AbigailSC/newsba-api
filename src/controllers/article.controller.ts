@@ -159,10 +159,9 @@ export const getArticles: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const getArticlesByLatest = catchAsync(async (req, res) => {
-  const { id } = req.params;
   const { page = 1, limit = 10 } = req.query as QueryType;
 
-  const articlesByCategory = await Article.find({ category: id })
+  const articlesByCategory = await Article.find()
     .sort({ date: -1 })
     .populate('views mainTag tags analysis author')
     .limit(limit)
@@ -191,10 +190,9 @@ export const getArticlesByLatest = catchAsync(async (req, res) => {
 });
 
 export const getArticlesByMostViewed = catchAsync(async (req, res) => {
-  const { id } = req.params;
   const { page = 1, limit = 10 } = req.query as QueryType;
 
-  const articlesByCategory = await Article.find({ category: id })
+  const articlesByCategory = await Article.find()
     .sort({ views: -1 })
     .populate('views mainTag tags analysis author')
     .limit(limit)
@@ -224,11 +222,11 @@ export const getArticlesByMostViewed = catchAsync(async (req, res) => {
 });
 
 export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const { tag } = req.params;
   const { page = 1, limit = 10 } = req.query as QueryType;
   const productsLength = await Article.countDocuments();
 
-  const articles: ArticleType | null = await Article.findById({ tags: id })
+  const articles: ArticleType | null = await Article.findById({ tags: tag })
     .populate('views mainTag tags analysis category author')
     .limit(limit)
     .skip((page - 1) * limit);
