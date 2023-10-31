@@ -253,3 +253,36 @@ export const getArticlesByTag: RequestHandler = catchAsync(async (req, res) => {
     data: articlesResponse
   });
 });
+
+export const searchArticles: RequestHandler = catchAsync(async (req, res) => {
+  const { page = 1, limit = 10 } = req.query as QueryType;
+  const { name } = req.query;
+  const productsLength = await Article.countDocuments();
+
+  const articles = await Article.find({
+    title: { $regex: name, $options: 'i' }
+  })
+    .populate('views mainTag tags analysis category author')
+    .limit(limit)
+    .skip((page - 1) * limit);
+  if (!articles) {
+    return res.status(400).json({
+      status: res.statusCode,
+      message: 'Aritcles not found'
+    });
+  }
+
+  const articlesResponse = {
+    totalPages: Math.ceil(productsLength / limit),
+    currentPage: page,
+    hasNextPage: page < Math.ceil(productsLength / limit),
+    hasPreviousPage: page > 1,
+    data: articles
+  };
+
+  res.status(200).json({
+    status: res.statusCode,
+    message: 'Articles found',
+    data: articlesResponse
+  });
+});

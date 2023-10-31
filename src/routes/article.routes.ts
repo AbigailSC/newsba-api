@@ -7,7 +7,8 @@ import {
   getArticles,
   getArticlesByLatest,
   getArticlesByMostViewed,
-  getArticlesByTag
+  getArticlesByTag,
+  searchArticles
 } from '@controllers';
 
 import { recolectErrors, verifyRoles } from '@middlewares';
@@ -27,6 +28,8 @@ router
     ],
     postArticle
   );
+
+router.get('/search', searchArticles);
 
 router
   .route('/:id')
