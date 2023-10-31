@@ -37,10 +37,6 @@ export const createAnalysis: RequestHandler = catchAsync(async (req, res) => {
       analysis: analysis._id
     }
   );
-  console.log(
-    '🚀 ~ file: analysis.controller.ts:40 ~ constcreateAnalysis:RequestHandler=catchAsync ~ articleModified:',
-    articleModified
-  );
 
   res.status(200).json({
     status: res.statusCode,
