@@ -34,14 +34,7 @@ router.get('/search', searchArticles);
 router
   .route('/:id')
   .get(getArticle)
-  .put(
-    [
-      verifyRoles([ROLES.ADMIN, ROLES.WRITTER]),
-      ...verifyArticle,
-      recolectErrors
-    ],
-    updateArticle
-  )
+  .put([verifyRoles([ROLES.ADMIN, ROLES.WRITTER])], updateArticle)
   .delete(
     [verifyRoles([ROLES.ADMIN, ROLES.WRITTER]), recolectErrors],
     deleteArticle

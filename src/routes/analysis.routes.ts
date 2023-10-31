@@ -28,14 +28,7 @@ router
 router
   .route('/:id')
   .get(getAnalysisById)
-  .put(
-    [
-      verifyRoles([ROLES.ADMIN, ROLES.WRITTER]),
-      ...verifyAnalysis,
-      recolectErrors
-    ],
-    updateAnalysis
-  )
+  .put([verifyRoles([ROLES.ADMIN, ROLES.WRITTER])], updateAnalysis)
   .delete(
     [verifyRoles([ROLES.ADMIN, ROLES.WRITTER]), recolectErrors],
     deleteAnalysis
